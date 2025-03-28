@@ -2,7 +2,10 @@ Modified using SPD-Reader-Writer
 
 Main Source is below link.
 
-https://github.com/1a2m3
+https://github.com/1a2m3 
+
+https://github.com/edlf/DDR5SPDEditor
+
 
 I modifed using it , GUI Based DDR5 SPD Reader Writer
 
