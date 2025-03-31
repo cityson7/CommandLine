@@ -157,7 +157,50 @@ namespace CommandLine
             int vOffsetCount = _hexData.Length / bytesPerRow;  //수직 offset
 
 
-            tboxHexData.Text = DataToHex(_hexData, bytesPerRow);
+            tboxHexData.Clear(); // 기존 내용 지우기
+
+            // Hex 데이터를 줄 단위로 변환
+            string[] hexLines = DataToHex(_hexData, bytesPerRow).Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+            // TextBox에서 사용하는 폰트 가져오기
+            Font textBoxFont = new System.Drawing.Font("Consolas", 9.7F);  // TextBox의 폰트 사용 
+
+            // 각 라인에 배경색 다르게 설정
+            for (int i = 0; i < hexLines.Length; i++)
+            {
+                string line = hexLines[i];
+
+                // XMP, EXPO Font 배경색 설정 
+                if (i >= 0x28 && i < 0x2C )
+                {
+                    tboxHexData.SelectionBackColor = Color.LightGray; // XMP Header 라인 배경색
+                }
+                else if (i >= 0x2C && i < 0x30)
+                {
+                    tboxHexData.SelectionBackColor = Color.LightGreen; // XMP2 라인 배경색
+                }
+                else if (i >= 0x30 && i < 0x34)
+                {
+                    tboxHexData.SelectionBackColor = Color.LightBlue; // XMP2 라인 배경색
+                }
+                else if (i >= 0x34 && i < 0x3C)
+                {
+                    tboxHexData.SelectionBackColor = Color.LightSalmon; // EXPO 라인 배경색
+                }
+                else
+                {
+                    tboxHexData.SelectionBackColor = Color.White;       // 기본 배경색으로 복귀
+                }
+
+                    // TextBox에서 사용되는 폰트를 RichTextBox에 적용
+                    tboxHexData.SelectionFont = textBoxFont;
+
+                // 해당 라인 추가
+                tboxHexData.AppendText(line + "\n");
+            }
+
+            // 텍스트 추가 후 배경색 초기화
+            tboxHexData.SelectionBackColor = Color.White; // 기본 배경색으로 복귀
      
             if( tabControlMain.SelectedTab != tabPageMain && !tabPageMain.Text.StartsWith("* "))  //텝이 선택되지 않은경우, 텝 하일라이트*함
             {
